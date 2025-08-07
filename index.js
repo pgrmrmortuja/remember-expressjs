@@ -23,7 +23,12 @@ app.get("/users", (req, res) => {
 });
 
 
-
+// Handle POST request to "/users" path
+app.post("/users", (req, res) => {
+    // Accessing the data sent in the request body
+    const user = req.body;
+    res.send(user);
+});
 
 
 // Starting the server on port 5000
