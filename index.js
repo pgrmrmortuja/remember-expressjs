@@ -1,11 +1,19 @@
 // Importing the express module
 const express = require("express");
 
+// Importing the 'cors' package (Cross-Origin Resource Sharing)
+const cors = require("cors");
+
 // Creating an express application
 const app = express();
 
 // Middleware to parse incoming JSON data
 app.use(express.json());
+
+// Using the CORS middleware to allow requests from any origin
+app.use(cors({
+    origin: '*',
+}));
 
 // Custom middleware to log request details
 const logger = (req, res, next) => {
