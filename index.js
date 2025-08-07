@@ -7,6 +7,19 @@ const app = express();
 // Middleware to parse incoming JSON data
 app.use(express.json());
 
+// Custom middleware to log request details
+const logger = (req, res, next) => {
+    // Logging HTTP method, URL, and IP address
+    console.log(`${req.method} ${req.url} - ${req.ip}`);
+
+    // Passing control to the next middleware or route handler
+    next();
+};
+
+// Using the logger middleware for all incoming requests
+app.use(logger);
+
+
 // Route handler for the root path ("/")
 // When someone visits http://localhost:5000/
 app.get("/", (req, res) => {
