@@ -37,6 +37,20 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 // Create the MongoDB connection URI using credentials from .env
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dk8ve.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
+const client = new MongoClient(uri);
+
+// Declare an asynchronous function to connect to the MongoDB server
+const run = async () => {
+    // Wait until the MongoDB client connects to the server
+    await client.connect();
+
+    // Print a message to confirm the client is connected
+    console.log("The database client is connected to mongodb server");
+}
+
+// Call the run function to start the connection
+run();
+
 
 // Route handler for the root path ("/")
 // When someone visits http://localhost:5000/
