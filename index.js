@@ -5,6 +5,9 @@ const express = require("express");
 // Importing the 'cors' package (Cross-Origin Resource Sharing)
 const cors = require("cors");
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 // Creating an express application
 const app = express();
 
@@ -27,6 +30,12 @@ const logger = (req, res, next) => {
 
 // Using the logger middleware for all incoming requests
 app.use(logger);
+
+// Import necessary tools from mongodb package
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+
+// Create the MongoDB connection URI using credentials from .env
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dk8ve.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
 // Route handler for the root path ("/")
