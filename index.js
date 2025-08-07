@@ -4,6 +4,9 @@ const express = require("express");
 // Creating an express application
 const app = express();
 
+// Middleware to parse incoming JSON data
+app.use(express.json());
+
 // Route handler for the root path ("/")
 // When someone visits http://localhost:5000/
 app.get("/", (req, res) => {
@@ -18,6 +21,7 @@ app.get("/users", (req, res) => {
     // Sending an empty array as the response
     res.send([]);
 });
+
 
 
 
