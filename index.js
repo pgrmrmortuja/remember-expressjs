@@ -42,15 +42,20 @@ const client = new MongoClient(uri);
 // Declare an asynchronous function to connect to the MongoDB server
 const run = async () => {
     try {
+        const database = client.db("testDB");
+        const gymCollection = database.collection("gym");
+
          // Wait until the MongoDB client connects to the server
         // await client.connect();
+
         // Print a message to confirm the client is connected
         console.log("The database client is connected to mongodb server");
 
-        app.post("/add-data", (req, res) =>{
+        app.post("/add-data", async (req, res) =>{
             const data = req.body;
-            console.log("the added data: ", data);
-            res.send(data);
+            console.log("added data: ", data);
+
+            
         })
 
 
