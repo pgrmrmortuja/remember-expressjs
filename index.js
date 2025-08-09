@@ -67,6 +67,13 @@ const run = async () => {
             console.log("result send to mongodb: ", result);
         });
 
+        app.delete("/delete-data/:id", async (req, res) => {
+            const id = req.params.id; // get "id" from URL path
+            const query = { _id: new ObjectId(id) }; // build query to match _id in MongoDB
+            const result = await gymCollection.deleteOne(query); // delete one matching document
+            res.send(result); // send result back to client
+        });
+
 
         // fetch("")
         // .then((res) => res.json())
