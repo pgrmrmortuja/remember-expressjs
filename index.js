@@ -45,21 +45,42 @@ const run = async () => {
         const database = client.db("testDB");
         const gymCollection = database.collection("gym");
 
-         // Wait until the MongoDB client connects to the server
+        // Wait until the MongoDB client connects to the server
         // await client.connect();
 
         // Print a message to confirm the client is connected
         console.log("The database client is connected to mongodb server");
 
-        app.post("/add-data", async (req, res) =>{
-            const data = req.body;
+        app.get("/get-data", async (req, res) => {
+            // Find all documents in the collection and convert the cursor to an array
+            const data = await gymCollection.find().toArray();
+            res.send(data); // Send the found documents back to the client (as JSON/array)
+        });
+
+        app.post("/add-data", async (req, res) => {
+            const data = req.body; // Read JSON body sent by the client (requires express.json middleware)
             console.log("added data: ", data);
 
-            const result = await gymCollection.insertOne(data);
+            const result = await gymCollection.insertOne(data); // Insert one document into the collection
 
-            res.send(result);
+            res.send(result); // Send MongoDB result object (contains insertedId, acknowledged, etc.)
             console.log("result send to mongodb: ", result);
-        })
+        });
+
+
+        // fetch("")
+        // .then((res) => res.json())
+        // .then((result) => console.log(result))
+
+        // fetch("",{
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(),
+        // })
+        // .then((res) => res.json())
+        // .then((result) => console.log(result))
 
 
 
