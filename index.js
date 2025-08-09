@@ -55,7 +55,10 @@ const run = async () => {
             const data = req.body;
             console.log("added data: ", data);
 
-            
+            const result = await gymCollection.insertOne(data);
+
+            res.send(result);
+            console.log("result send to mongodb: ", result);
         })
 
 
