@@ -57,6 +57,13 @@ const run = async () => {
             res.send(data); // Send the found documents back to the client (as JSON/array)
         });
 
+        app.get("/get-single-data/:id", async (req, res) => {
+            const id = req.params.id; // get the "id" from the URL path
+            const query = { _id: new ObjectId(id) }; // create a MongoDB query using the _id
+            const result = await gymCollection.findOne(query); // find one document that matches the query
+            res.send(result); // send the found document back to the client
+        });
+
         app.post("/add-data", async (req, res) => {
             const data = req.body; // Read JSON body sent by the client (requires express.json middleware)
             console.log("added data: ", data);
