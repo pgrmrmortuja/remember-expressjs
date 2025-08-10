@@ -74,6 +74,26 @@ const run = async () => {
             console.log("result send to mongodb: ", result);
         });
 
+        // Handle PATCH request to update a specific document by ID
+        app.patch("/patch-update/:id", async (req, res) => {
+            // Get the ID from URL parameters
+            const id = req.params.id;
+            // Get the update data from request body
+            const data = req.body;
+            // Create MongoDB query to find the document by ObjectId
+            const query = { _id: new ObjectId(id) };
+            // MongoDB update operator to set the new values
+            const update = {
+                $set: data
+            };
+
+            // Update one matching document in the collection
+            const result = await gymCollection.updateOne(query, update);
+            // Send the update result back to the client
+            res.send(result);
+
+        });
+
         app.delete("/delete-data/:id", async (req, res) => {
             const id = req.params.id; // get "id" from URL path
             const query = { _id: new ObjectId(id) }; // build query to match _id in MongoDB

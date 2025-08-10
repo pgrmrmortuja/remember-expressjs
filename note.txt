@@ -314,6 +314,41 @@ console.log("result send to mongodb: ", result);
 — সার্ভারে আবার রেজাল্ট লোগ করছো — ডিবাগে সুবিধা।
 
 
+app.patch("/patch-update/:id", ...)
+
+এটা একটা PATCH request route।
+
+PATCH মানে ডাটাবেসের কোন ডকুমেন্ট আংশিক আপডেট করা (সব data replace না করে, শুধু কিছু field বদলানো)।
+
+:id মানে client থেকে আসা ডাইনামিক ভ্যালু (যেমন /patch-update/66b8c... হলে সেটা id হবে)।
+
+const id = req.params.id;
+
+URL থেকে id নিয়ে ভ্যারিয়েবলে রাখছি।
+
+const data = req.body;
+
+Client request body তে যে data পাঠাবে, সেটা data ভ্যারিয়েবলে রাখছি।
+
+const query = { _id: new ObjectId(id) };
+
+MongoDB ডাটাবেসে ডকুমেন্ট খুঁজে বের করার শর্ত।
+
+_id কে MongoDB এর ObjectId তে কনভার্ট করছি, কারণ শুধু string হলে match করবে না।
+
+const update = { $set: data };
+
+$set MongoDB এর special operator যা শুধু দেওয়া field update করে।
+
+const result = await gymCollection.updateOne(query, update);
+
+MongoDB এর updateOne() method দিয়ে matching document update করছি।
+
+res.send(result);
+
+Update operation এর ফলাফল client এর কাছে পাঠাচ্ছি।
+
+
 
 ==========================================
 params(dynamec id, routing)
