@@ -53,9 +53,35 @@ const run = async () => {
 
         app.get("/get-data", async (req, res) => {
             // Find all documents in the collection and convert the cursor to an array
-            const data = await gymCollection.find().toArray();
-            res.send(data); // Send the found documents back to the client (as JSON/array)
+            const result = await gymCollection.find().toArray();
+            res.send(result); // Send the found documents back to the client (as JSON/array)
         });
+
+        // Handle GET request to search data from the collection
+        app.get("/get-search-data", async (req, res) => {
+            // Get the 'search' query parameter from the request URL
+            const { search } = req.query;
+
+            // Initialize empty search option
+            let option = {};
+
+            // If search parameter exists, create a regex filter for 'title'
+            if (search) {
+                option = {
+                    title: {
+                        $regex: search,     // Match documents where title contains 'search'
+                        $options: "i"       // Case-insensitive search
+                    }
+                };
+            }
+
+            // Find documents that match the search option and convert to an array
+            const result = await gymCollection.find(option).toArray();
+
+            // Send the search results back to the client
+            res.send(result);
+        });
+
 
         app.get("/get-single-data/:id", async (req, res) => {
             const id = req.params.id; // get the "id" from the URL path
